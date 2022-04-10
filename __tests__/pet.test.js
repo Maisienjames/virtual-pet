@@ -1,4 +1,4 @@
-const { it } = require('@jest/globals');
+const { it, expect } = require('@jest/globals');
 const Pet = require('../src/pet');
 
 describe('constructor', () => {
@@ -10,16 +10,16 @@ describe('constructor', () => {
       expect(pet.name).toEqual('Fido');
     });
     it('has initial age of 0', () => {
-    const pet = new Pet('Fido');
-    expect(pet.age).toEqual(0);
+      const pet = new Pet('Fido');
+      expect(pet.age).toEqual(0);
     });
     it('has initial hunger of 0', () => {
-    const pet = new Pet('Fido');
-    expect(pet.hunger).toEqual(0);
+      const pet = new Pet('Fido');
+      expect(pet.hunger).toEqual(0);
     });
     it('has initial fitness of 10', () => {
-    const pet = new Pet('Fido');
-    expect(pet.fitness).toEqual(10);
+      const pet = new Pet('Fido');
+      expect(pet.fitness).toEqual(10);
     });
   });
 
@@ -33,21 +33,19 @@ describe('constructor', () => {
     });
 
   describe('walk', () => {
-  it('increases fitness by 4', () => {
-    const pet = new Pet('fido');
+    it('increases fitness by 4', () => {
+      const pet = new Pet('fido');
 
-    pet.fitness = 4;
-    pet.walk();
-
-    expect(pet.fitness).toEqual(8);
+      pet.fitness = 4;
+      pet.walk();
+      expect(pet.fitness).toEqual(8);
   });
   it('increases fitness to a maximum of 10', () => {
-    const pet = new Pet('fido');
+      const pet = new Pet('fido');
 
-    pet.fitness = 8;
-    pet.walk();
-
-    expect(pet.fitness).toEqual(10);
+      pet.fitness = 8;
+      pet.walk();
+      expect(pet.fitness).toEqual(10);
   });
   });
 
@@ -57,7 +55,6 @@ describe('constructor', () => {
   
       pet.hunger = 4;
       pet.feed();
-  
       expect(pet.hunger).toEqual(1);
     });
     it('decreases hunger to a minimum of 0', () => {
@@ -65,8 +62,42 @@ describe('constructor', () => {
   
       pet.hunger = 2;
       pet.feed();
-  
       expect(pet.hunger).toEqual(0);
     });
     });
+
+    describe('checkUp', () => {
+      it('tells you if the pet is unfit', () => {
+        const pet = new Pet('Fido');
+
+        pet.fitness = 2;
+        pet.hunger = 2;
+        pet.checkUp();
+        expect(pet.checkUp).toBe["I need a walk"];
+      });
+      it('tells you if the pet is hungry', () => {
+        const pet = new Pet('fido');
+    
+        pet.hunger = 5;
+        pet.fitness = 10;
+        pet.checkUp();
+        expect(pet.checkUp).toBe["I am hungry"];
+      });
+      it('tells you if the pet is well', () => {
+        const pet = new Pet('fido');
+
+        pet.hunger = 4;
+        pet.fitness = 10;
+        pet.checkUp();
+        expect(pet.checkUp).toBe["I feel great!"];
+      });
+      it('tells you if the pet is unfit and hungry', () => {
+        const pet = new Pet('fido');
+    
+        pet.fitness = 2;
+        pet.hunger = 10;
+        pet.checkUp();
+        expect(pet.checkUp).toBe["I am hungry AND I need a walk"];
+      });
+      });
 });
