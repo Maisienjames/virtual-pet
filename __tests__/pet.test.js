@@ -1,3 +1,4 @@
+const { it } = require('@jest/globals');
 const Pet = require('../src/pet');
 
 describe('constructor', () => {
@@ -20,7 +21,8 @@ describe('constructor', () => {
     const pet = new Pet('Fido');
     expect(pet.fitness).toEqual(10);
     });
-    });
+  });
+
   describe('growUp', () => {
     it('increments the age by 1, increments hunger by 5, decreases fitness by 3', () => {
       const pet = new Pet('Fido');
@@ -29,6 +31,22 @@ describe('constructor', () => {
       expect(pet.fitness).toEqual(7);
       expect(pet.hunger).toEqual(5);
     });
-  });
+  describe('walk', () => {
+  it('increases fitness by 4', () => {
+    const pet = new Pet('fido');
 
-  
+    pet.fitness = 4;
+    pet.walk();
+
+    expect(pet.fitness).toEqual(8);
+  });
+  it('increases fitness to a maximum of 10', () => {
+    const pet = new Pet('fido');
+
+    pet.fitness = 8;
+    pet.walk();
+
+    expect(pet.fitness).toEqual(10);
+  });
+  });
+});
