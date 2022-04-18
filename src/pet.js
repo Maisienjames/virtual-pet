@@ -1,8 +1,8 @@
 const MAXIMUM_FITNESS = 10;
 const HUNGER_INCREMENT = 5;
-const HUNGER_DETRIMENT = 3;
+const HUNGER_DECREMENT = 3;
 const FITNESS_INCREMENT = 4;
-const FITNESS_DETRIMENT = 3;
+const FITNESS_DECREMENT = 3;
 const INITIAL_AGE = 0;
 const INITIAL_HUNGER = 0;
 const SATIETY_THRESHOLD = 5;
@@ -16,6 +16,7 @@ function Pet(name){
     this.age = INITIAL_AGE;
     this.hunger = INITIAL_HUNGER;
     this.fitness = MAXIMUM_FITNESS;
+    this.children = [];
     };
 
     Pet.prototype = {
@@ -30,9 +31,10 @@ function Pet(name){
           } else {
         this.age += 1;
         this.hunger += HUNGER_INCREMENT;
-        this.fitness -= FITNESS_DETRIMENT;
+        this.fitness -= FITNESS_DECREMENT;
         }
     };
+
     Pet.prototype.walk = function() {
         if (!this.isAlive) {
             throw new Error('Your pet is no longer alive :(');
@@ -43,16 +45,18 @@ function Pet(name){
             this.fitness = MAXIMUM_FITNESS;
         }
     };
+
     Pet.prototype.feed = function() {
         if (!this.isAlive) {
             throw new Error('Your pet is no longer alive :(');
           }
-        if ((this.hunger - HUNGER_DETRIMENT) >= INITIAL_HUNGER ) {
-            this.hunger -= HUNGER_DETRIMENT;
+        if ((this.hunger - HUNGER_DECREMENT) >= INITIAL_HUNGER ) {
+            this.hunger -= HUNGER_DECREMENT;
           } else {
             this.hunger = INITIAL_HUNGER;
         }
     };
+
     Pet.prototype.checkUp = function() {
         if (this.hunger > HUNGER_THRESHOLD && this.fitness > UNFIT_THRESHOLD) {
         return 'I am hungry'
@@ -65,6 +69,13 @@ function Pet(name){
         } else if (!this.isAlive) {
         return 'Your pet is no longer alive :('
         }
+    };
+  
+    Pet.prototype.adoptChild = function(childObject) {
+      if (!this.isAlive) {
+        throw new Error('Your pet is no longer alive :(');
+      }
+      this.children.push(childObject);
     };
 
 module.exports = Pet;
